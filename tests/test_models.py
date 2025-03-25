@@ -9,14 +9,33 @@ from inflammation.models import daily_max
 
 #Parameterizing tests
 # Max parameter
-@pytest.mark.parametrize("test, expected", ([1,2],[3,4],[5,6]),([7,8],[9,10],[11,12],)
+
+@pytest.mark.parametrize(
+    "test,expected",
+[
+    ([[0,0],[0,0],[1,1]],
+     [1,1]),
+    ([[1,2],[3,4],[5,6]],
+     [5,6]),
+]
+)
+
 def test_daily_max(test, expected):
     npt.assert_array_equal(daily_max(np.array(test)), np.array(expected))
 
 # Min parameter
-@pytest.mark.parametrize("test, expected",([18,1],[13,3],[13,5]),([-7,0],[-9,-10],[-12,-11],))
+
+@pytest.mark.parametrize(
+    "test, expected",
+    [
+        ([ [0, 0, 0], [0, 0, 0], [0, 0, 0] ], [0, 0, 0]),
+        ([ [4, 2, 5], [1, 6, 2], [4, 1, 9] ], [1, 1, 2]),
+        ([ [4, -2, 5], [1, -6, 2], [-4, -1, 9] ], [-4, -6, 2]),
+    ])
 def test_daily_min(test, expected):
+    """Test min function works for zeroes, positive integers, mix of positive/negative integers."""
     npt.assert_array_equal(daily_min(np.array(test)), np.array(expected))
+
 
 # End of parameterizing
 
@@ -25,7 +44,6 @@ def test_daily_min(test, expected):
 ...
 def test_daily_min_string():
     """Test for TypeError when passing strings"""
-
     with pytest.raises(TypeError):
         error_expected = daily_min([['Hello', 'there'], ['General', 'Kenobi']])
 # End of testing FOR errors
@@ -33,25 +51,25 @@ def test_daily_min_string():
 # Unit 2 exercise to test the 1. daily_max() and 2. daily_min()
 
 # Unit test exercise 1
-def test_daily_max_integers():
+#def test_daily_max_integers():
     """Test that max function works for an array of positive integers."""
-    test_input = np.array([[1, 2],
-                           [3, 4],
-                           [5, 6]])
-    test_result = np.array([5, 6])
-npt.assert_array_equal(daily_max(data=test_input), test_result)
+ #   test_input = np.array([[1, 2],
+          #                 [3, 4],
+     #                      [5, 6]])
+  #  test_result = np.array([5, 6])
+   # npt.assert_array_equal(daily_max(test_input), test_result)
 
 # Unit test exercise 2
-def test_daily_min_integers():
+#def test_daily_min_integers():
     """Test that min function works for an array of positive and negative integers."""
-    test_input = np.array([[1, 2],
-                           [3, 4],
-                           [5, 6],
-                           [-1, -2],
-                           [-3, -4],
-                           [-5, -6]])
-    test_result = np.array([-5, -6])
-npt.assert_array_equal(daily_min(data=test_input), test_result)
+ #   test_input = np.array([[1, 2],
+  #                         [3, 4],
+   #                        [5, 6],
+    #                       [-1, -2],
+     #                      [-3, -4],
+      #                     [-5, -6]])
+   # test_result = np.array([-5, -6])
+   # npt.assert_array_equal(daily_min(test_input), test_result)
 
 def test_daily_mean_zeros():
     """Test that mean function works for an array of zeros."""
@@ -63,7 +81,7 @@ def test_daily_mean_zeros():
     test_result = np.array([0, 0])
 
     # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(daily_mean(data=test_input), test_result)
+    npt.assert_array_equal(daily_mean(test_input), test_result)
 
 
 def test_daily_mean_integers():
