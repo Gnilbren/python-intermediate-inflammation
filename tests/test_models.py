@@ -2,12 +2,26 @@
 
 import numpy as np
 import numpy.testing as npt
-
+import pytest
 from inflammation.models import daily_mean
+from inflammation.models import daily_min
+from inflammation.models import daily_max
+
+#Parameterizing tests
+# Max parameter
+@pytest.mark.parametrize("test, expected", ([1,2],[3,4],[5,6]),([7,8],[9,10],[11,12],)
+def test_daily_max(test, expected):
+    npt.assert_array_equal(daily_max(np.array(test)), np.array(expected))
+
+# Min parameter
+@pytest.mark.parametrize("test, expected",([18,1],[13,3],[13,5]),([-7,0],[-9,-10],[-12,-11],))
+def test_daily_min(test, expected):
+    npt.assert_array_equal(daily_min(np.array(test)), np.array(expected))
+
+# End of parameterizing
 
 # Testing FOR Errors
-import pytest
-from inflammation.models import daily_min
+
 ...
 def test_daily_min_string():
     """Test for TypeError when passing strings"""
